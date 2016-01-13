@@ -123,7 +123,7 @@ def composeTweet(genre, template):
     subjects = zip(genreterm, list(template[1]))
     #create tweet text
     templatevalues = [s[0].encode('utf-8', 'ignore') for s in subjects]
-    tweettext = template[0].format(templatevalues[0], templatevalues[1]).title()
+    tweettext = template[0].format(templatevalues[0], templatevalues[1]).capitalize()
     #create url
     queries = ['&filters[{0}]={1}'.format(s[1], s[0].encode('utf-8', 'ignore').replace(' ', '+')) for s in subjects]
     queries = ''.join(queries)

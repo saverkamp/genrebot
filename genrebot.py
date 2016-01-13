@@ -152,7 +152,7 @@ def connect():
 if __name__ == '__main__':
     try:
         tweet = genrebotTweet()
-        if os.environ["DEBUG"] == False:
+        if os.environ["DEBUG"] == 'False':
             api = connect()
             status = api.PostUpdate(tweet)
         else:

@@ -95,7 +95,7 @@ def buildClassmark(subject):
     upper = ''.join(random.sample(letters, 2)).upper()
     digit = str(random.randint(0,9))
     #list of possible separators
-    separators = '...:,*+'
+    separators = '....::*+'
     #select number of classmark parts to use and select random sample
     numparts = random.randint(2,3)
     classparts = random.sample([dewey, lcc, colon, lower, digit], numparts)

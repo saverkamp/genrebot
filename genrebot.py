@@ -143,16 +143,16 @@ def genrebotTweet():
   
 def connect():
     '''Connect to Twitter'''
-    api = twitter.Api(consumer_key=os.environ.get(MY_CONSUMER_KEY),
-                          consumer_secret=os.environ.get(MY_CONSUMER_SECRET),
-                          access_token_key=os.environ.get(MY_ACCESS_TOKEN_KEY),
-                          access_token_secret=os.environ.get(MY_ACCESS_TOKEN_SECRET))
+    api = twitter.Api(consumer_key=os.environ["MY_CONSUMER_KEY"],
+                          consumer_secret=os.environ["MY_CONSUMER_SECRET"],
+                          access_token_key=os.environ["MY_ACCESS_TOKEN_KEY"]
+                          access_token_secret=os.environ["MY_ACCESS_TOKEN_SECRET"])
     return api  
 
 if __name__ == '__main__':
     try:
         tweet = genrebotTweet()
-        if os.environ.get(DEBUG) == False:
+        if os.environ["DEBUG"] == False:
             api = connect()
             status = api.PostUpdate(tweet)
         else:

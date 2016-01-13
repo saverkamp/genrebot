@@ -147,6 +147,7 @@ def connect():
                           consumer_secret=os.environ["MY_CONSUMER_SECRET"],
                           access_token_key=os.environ["MY_ACCESS_TOKEN_KEY"],
                           access_token_secret=os.environ["MY_ACCESS_TOKEN_SECRET"])
+    print api.VerifyCredentials()
     return api  
 
 if __name__ == '__main__':

@@ -125,7 +125,7 @@ def composeTweet(genre, template):
     templatevalues = [s[0].encode('utf-8', 'ignore') for s in subjects]
     tweettext = template[0].format(templatevalues[0], templatevalues[1]).title()
     #create url
-    queries = ['&filters[{0}]={1}'.format(s[1], s[0].encode('utf-8', 'ignore').replace(' ', '%20')) for s in subjects]
+    queries = ['&filters[{0}]={1}'.format(s[1], s[0].encode('utf-8', 'ignore').replace(' ', '+')) for s in subjects]
     queries = ''.join(queries)
     baseurl = 'http://digitalcollections.nypl.org/search/index?filters[rights]=pd'
     url = baseurl + queries

@@ -117,7 +117,8 @@ def composeTweet(genre, template):
     both to compose the full tweet. '''
     print genre
     #make a list ot terms, also strip anything after ' -- ' for each term
-    values = [i[0].partition(' -- ')[0] for i in genre]
+    values = [i[0].replace(' -- ', '*').partition('*') for i in genre]
+    values = [v[0]+v[1] for v in values]
     genreterm = values
     #zip together the terms and their corresponding types into a list of tuples
     subjects = zip(genreterm, list(template[1]))

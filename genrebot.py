@@ -155,6 +155,7 @@ if __name__ == '__main__':
         if os.environ["DEBUG"] == 'False':
             api = connect()
             status = api.PostUpdate(tweet)
+            print status.text.encode('utf-8')
         else:
             print tweet
     except:

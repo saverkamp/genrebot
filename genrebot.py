@@ -145,7 +145,7 @@ def connect():
     '''Connect to Twitter'''
     api = twitter.Api(consumer_key=os.environ["MY_CONSUMER_KEY"],
                           consumer_secret=os.environ["MY_CONSUMER_SECRET"],
-                          access_token_key=os.environ["MY_ACCESS_TOKEN_KEY"]
+                          access_token_key=os.environ["MY_ACCESS_TOKEN_KEY"],
                           access_token_secret=os.environ["MY_ACCESS_TOKEN_SECRET"])
     return api  
 

@@ -1,6 +1,5 @@
 import random
 import twitter
-from local_settings import *
 import os
 import psycopg2
 import urlparse

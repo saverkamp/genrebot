@@ -128,7 +128,7 @@ def composeTweet(genre, template):
     queries = ['&filters[{0}]={1}'.format(s[1], s[0].encode('utf-8', 'ignore').replace(' ', '+')) for s in subjects]
     queries = ''.join(queries)
     baseurl = 'http://digitalcollections.nypl.org/search/index?filters[rights]=pd'
-    url = baseurl + queries
+    url = baseurl + queries + '&keywords='
     classmark = buildClassmark(templatevalues[1])
     tweet = classmark + ' | ' + tweettext + url
     return tweet

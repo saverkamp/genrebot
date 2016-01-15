@@ -3,7 +3,7 @@ import os
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', hours=2)
+@sched.scheduled_job('interval', hour=2)
 def timed_job():
 	os.system('genrebot.py')
     print('This job is run every two hours.')

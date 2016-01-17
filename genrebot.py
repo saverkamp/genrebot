@@ -4,6 +4,7 @@ import os
 import psycopg2
 import urlparse
 import string
+import requests
 from datetime import datetime
 
 urlparse.uses_netloc.append("postgres")
@@ -132,17 +133,37 @@ def composeTweet(genre, template):
     queries = ''.join(queries)
     baseurl = 'http://digitalcollections.nypl.org/search/index?filters[rights]=pd'
     url = baseurl + queries + '&keywords='
-    classmark = buildClassmark(templatevalues[1])
-    tweet = classmark + ' | ' + tweettext + url
+    #make sure the url returns results, otherwise return "Failed"
+    if checkResults(url) == True:
+        classmark = buildClassmark(templatevalues[1])
+        tweet = classmark + ' | ' + tweettext + url
+    else:
+        tweet = 'Failed'
     return tweet
+
+def checkResults(url):
+    '''Check the search results page to make sure there's something there'''
+    page = requests.get(url)
+    if page.content.find('<div class="found">') != -1:
+        results = True
+    else:
+        results = False
+    return results
     
-def genrebotTweet():
+def genrebotTweet(tries=0):
     '''Generate a genrebot tweet text'''
     template = random.choice(templates)
     subjecttype = types[template[1][1]]
     genre = getGenre(subjecttype)
     tweet = composeTweet(genre, template)
-    return tweet
+    if tweet != 'Failed':
+        return tweet
+    else:
+        if tries == 10:
+            exit()
+        else:
+            tries += 1
+            return genrebotTweet(tries)
   
 def connect():
     '''Connect to Twitter'''

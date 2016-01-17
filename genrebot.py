@@ -4,6 +4,7 @@ import os
 import psycopg2
 import urlparse
 import string
+from datetime import datetime
 
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(os.environ["DATABASE_URL"])
@@ -153,13 +154,17 @@ def connect():
     return api  
 
 if __name__ == '__main__':
-    # try:
-    tweet = genrebotTweet()
-    if os.environ["DEBUG"] == 'False':
-        api = connect()
-        status = api.PostUpdate(tweet)
-        print status.text.encode('utf-8')
-    else:
-        print tweet
-    # except:
+    try:
+        # hacky method to run this only every two hours
+        if datetime.now().hour % 2 == 0:
+            tweet = genrebotTweet()
+            if os.environ["DEBUG"] == 'False':
+                api = connect()
+                status = api.PostUpdate(tweet)
+                print status.text.encode('utf-8')
+            else:
+                print tweet
+        else:
+            exit()
+    except:
         exit()

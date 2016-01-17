@@ -116,14 +116,15 @@ def composeTweet(genre, template):
     '''Fill out the random template for the tweet text and create a canned search based on the randomly selected terms. Concatenate
     both to compose the full tweet. '''
     print genre
-    #make a list ot terms, also strip anything after ' -- ' for each term
+    # make a list ot terms, also strip anything after ' -- ' for each term and replace
+    # with * for wildcard search in url
     values = [i[0].replace(' -- ', '*').partition('*') for i in genre]
     values = [v[0]+v[1] for v in values]
     genreterm = values
     #zip together the terms and their corresponding types into a list of tuples
     subjects = zip(genreterm, list(template[1]))
-    #create tweet text
-    templatevalues = [s[0].encode('utf-8', 'ignore') for s in subjects]
+    #create tweet text, stripping * for tweet text
+    templatevalues = [s[0].encode('utf-8', 'ignore').replace('*', '') for s in subjects]
     tweettext = template[0].format(templatevalues[0], templatevalues[1])
     #create url
     queries = ['&filters[{0}]={1}'.format(s[1], s[0].encode('utf-8', 'ignore').replace(' ', '+')) for s in subjects]

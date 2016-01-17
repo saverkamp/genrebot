@@ -5,6 +5,7 @@ import psycopg2
 import urlparse
 import string
 import requests
+import math
 from datetime import datetime
 
 urlparse.uses_netloc.append("postgres")
@@ -33,13 +34,23 @@ types = {'place':{'tablename':'places', 'column':'place', 'search':'[place]='},
 
 
 def randomGenre():
-    '''Get one random genre from a list of distinct values from the db. Returns tuple for use in next query.'''
-    sql = ("select distinct(genre) "
-       "from genres;")
+    '''Get one random genre from a list of weighted, distinct values from the db. Returns tuple for use in next query.'''
+    #get list of all genres and their counts
+    sql = ("select genre, count(genre) "
+       "from genres "
+       "group by genre;")
     cur.execute(sql)
     genres = [c for c in cur.fetchall()]
-    genre = random.choice(genres)
-    print genre
+    #create new list of genres, weighting higher those with more record instances
+    weightedgenres = []
+    #round number of genre instances to nearest log and add respective number of times to genre list
+    weights = {100000:25, 10000:15, 1000:5, 100:1, 10:1, 1:1}
+    for g in genres:
+        weight = int(10**math.ceil(math.log10(g[1])))
+        to_add = [(g[0],)] * weights[weight]
+        weightedgenres.extend(to_add)
+    #choose one genre
+    genre = random.choice(weightedgenres)
     if genre is not None:
         return genre
     else:
@@ -156,6 +167,7 @@ def genrebotTweet(tries=0):
     subjecttype = types[template[1][1]]
     genre = getGenre(subjecttype)
     tweet = composeTweet(genre, template)
+    #only try 10 times at a url that returns results before giving up
     if tweet != 'Failed':
         return tweet
     else:
